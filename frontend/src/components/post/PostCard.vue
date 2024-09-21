@@ -63,7 +63,7 @@
       class="bg-grey-lighten-5"
       max-height="200px"
       style="overflow-y: scroll"
-      v-if="isCommentsVisible && post.comments && post.comments.length > 0"
+      v-if="isCommentsVisible && comments.length > 0"
     >
       <v-list-item
         v-for="comment in comments"
