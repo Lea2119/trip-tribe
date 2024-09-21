@@ -5,6 +5,7 @@ import type { Post, Trend } from '@/models/post'
 
 export const usePostStore = defineStore('post', () => {
   const posts = ref<Post[]>([])
+  const comments = ref<Comment[]>([])
   const trends = ref<Trend[]>([])
 
   const fetchPosts = (): Promise<Post[]> => {
@@ -73,7 +74,17 @@ export const usePostStore = defineStore('post', () => {
         .post(`/api/posts/${postId}/like/`)
         .then(response => {
           fetchPosts()
-          resolve(response.data)
+          resolve()
+        })
+        .catch(error => reject(new Error(error)))
+    })
+  }
+  const createComment = (postId: string, body: string): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      axios
+        .post(`/api/posts/${postId}/comment/`, { body })
+        .then(response => {
+          resolve()
         })
         .catch(error => reject(new Error(error)))
     })
@@ -99,6 +110,7 @@ export const usePostStore = defineStore('post', () => {
     getTrendPosts,
     trends,
     likePost,
+    createComment,
     deletePost
   }
 })

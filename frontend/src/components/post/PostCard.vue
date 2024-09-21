@@ -17,7 +17,7 @@
       </p>
     </template>
     <div class="px-4">
-      <div v-if="post.attachments.length">
+      <div v-if="post.attachments">
         <v-img
           v-for="image in post.attachments"
           :src="image.get_image"
@@ -90,6 +90,7 @@ import { ref } from 'vue'
 import moment from 'moment'
 import { userUUID } from '@/utils/global'
 import type { Post } from '@/models/post'
+import type { Notification } from '@/models/global'
 import { usePostStore } from '@/stores/post'
 
 const props = defineProps<{
