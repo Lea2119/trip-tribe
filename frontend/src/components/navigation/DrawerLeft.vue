@@ -5,7 +5,7 @@
       class="d-flex flex-column justify-center aligner-center text-center pa-2 mb-4"
     >
       <div class="d-flex flex-column justify-center align-center my-4">
-        <v-avatar :image="user.avatar" size="100" class="mb-2" />
+        <v-avatar :image="user.avatar ?? ''" size="100" class="mb-2" />
       </div>
       <h4>{{ user.name }}</h4>
     </v-card>
