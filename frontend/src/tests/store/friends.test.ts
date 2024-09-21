@@ -17,14 +17,15 @@ describe('profile store', () => {
     await store.getFriends(CURRENT_USER_FRIENDS.user.id)
     expect(spy).toHaveBeenCalledWith(`/api/friends/${CURRENT_USER_FRIENDS.user.id}/`)
   })
+
   test('handle friend request success', async () => {
     const store = useFriendsStore()
 
     axios.post = vi.fn().mockResolvedValue({})
     const spy = vi.spyOn(axios, 'post')
-    await store.handleFriendRequest(CURRENT_USER_FRIENDS.requests[0].id, 'accept')
+    await store.handleFriendRequest('accept', CURRENT_USER_FRIENDS.requests[0].id)
     expect(spy).toHaveBeenCalledWith(
-      `/api/friends/accept/${CURRENT_USER_FRIENDS.requests[0].id}/`
+      `/api/friends/b9a67438-f0a3-48bd-9155-882cd94bddc5/accept/`
     )
   })
 })

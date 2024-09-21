@@ -34,12 +34,12 @@ export const useFriendsStore = defineStore('friends', () => {
   }
 
   const handleFriendRequest = (
-    status: 'accept' | 'reject',
+    action: 'accept' | 'reject',
     pk: string
   ): Promise<{ message: string }> => {
     return new Promise((resolve, reject) => {
       axios
-        .post(`/api/friends/${pk}/${status}/`)
+        .post(`/api/friends/${pk}/${action}/`)
         .then(async response => {
           if (user.value) {
             await getFriends(user.value.id)
