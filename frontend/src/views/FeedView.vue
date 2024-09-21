@@ -16,6 +16,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { usePostStore } from '@/stores/post'
+import type { Notification } from '@/models/global'
 import PostCard from '@/components/post/PostCard.vue'
 import CreatePost from '@/components/post/CreatePost.vue'
 import AlertComponent from '@/components/AlertComponent.vue'
