@@ -1,8 +1,11 @@
-export const CURRENT_USER_PROFILE = {
+import type { Profile } from '@/models/profile'
+
+export const CURRENT_USER_PROFILE: Profile = {
   user: {
     id: '45c61050-0502-496e-a80a-c272cd8a80a4',
     name: 'Olivia Smith',
     email: 'olivia.smith@gmail.com',
+    bio: 'Travel enthusiast',
     friends_count: 1,
     get_avatar: 'http://127.0.0.1:8000/media/avatars/AdobeStock_451071568.jpeg',
     friends: [
@@ -63,6 +66,7 @@ export const PROFILE_FRIENDS = {
     id: '45c61050-0502-496e-a80a-c272cd8a80a4',
     name: 'Olivia Smith',
     email: 'olivia.smith@gmail.com',
+    bio: 'Travel enthusiast',
     friends_count: 1,
     get_avatar: 'http://127.0.0.1:8000/media/avatars/AdobeStock_451071568.jpeg',
     friends: [
@@ -169,6 +173,7 @@ export const PROFILE_FRIENDS = {
 export const EDIT_PROFILE_FORM = {
   name: 'Olivia Smith',
   email: 'olivia.smith@gmail.com',
+  bio: 'Travel enthusiast',
   avatar: 'http://127.0.0.1:8000/media/avatars/thom-holmes-Wq9Iw5EhOf0-unsplash.jpg'
 }
 
@@ -177,6 +182,7 @@ export const TARGET_USER_PROFILE = {
     id: 'dc25e70e-c289-4449-b0d4-6c041fecfee0',
     name: 'Emily Johnson',
     email: 'emily.johnson@gmail.com',
+    bio: 'Travel enthusiast',
     friends_count: 1,
     get_avatar: 'http://127.0.0.1:8000/media/avatars/Emily_Johnson.jpg',
     friends: []
