@@ -32,7 +32,8 @@ export const usePostStore = defineStore('post', () => {
         .catch(error => {
           reject(new Error(error))
         })
-  })
+    })
+  }
 
   const createPost = (formData: FormData): Promise<void> => {
     return new Promise((resolve, reject) => {
@@ -91,6 +92,7 @@ export const usePostStore = defineStore('post', () => {
         .catch(error => reject(new Error(error)))
     })
   }
+
   const createComment = (postId: string, body: string): Promise<void> => {
     return new Promise((resolve, reject) => {
       axios
