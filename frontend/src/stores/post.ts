@@ -22,6 +22,18 @@ export const usePostStore = defineStore('post', () => {
     })
   }
 
+  const fetchPost = (postId: string): Promise<Post> => {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(`/api/posts/${postId}/`)
+        .then(response => {
+          resolve(response.data)
+        })
+        .catch(error => {
+          reject(new Error(error))
+        })
+  })
+
   const createPost = (formData: FormData): Promise<void> => {
     return new Promise((resolve, reject) => {
       axios
@@ -105,6 +117,7 @@ export const usePostStore = defineStore('post', () => {
   return {
     posts,
     fetchPosts,
+    fetchPost,
     createPost,
     getTrends,
     getTrendPosts,

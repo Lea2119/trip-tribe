@@ -114,6 +114,7 @@ const handleDeletePost = async () => {
 }
 const toggleComments = () => {
   comments.value = !comments.value
+  store.fetchPost(props.post.id as string)
 }
 </script>
 
