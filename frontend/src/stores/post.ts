@@ -27,7 +27,8 @@ export const usePostStore = defineStore('post', () => {
       axios
         .get(`/api/posts/${postId}/`)
         .then(response => {
-          resolve(response.data)
+          comments.value = response.data.post.comments
+          resolve(response.data.post)
         })
         .catch(error => {
           reject(new Error(error))
@@ -98,6 +99,7 @@ export const usePostStore = defineStore('post', () => {
       axios
         .post(`/api/posts/${postId}/comment/`, { body })
         .then(response => {
+          fetchPosts()
           resolve()
         })
         .catch(error => reject(new Error(error)))

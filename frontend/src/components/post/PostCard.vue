@@ -38,7 +38,7 @@
         class="me-2"
         icon="mdi-comment-multiple-outline"
       ></v-icon>
-      <span class="subheading me-4">25</span>
+      <span class="subheading me-4">{{ post.comments_count }}</span>
       <v-spacer></v-spacer>
       <v-menu v-if="post.created_by.id === userUUID()">
         <template v-slot:activator="{ props }">
@@ -61,24 +61,32 @@
     </v-card-actions>
     <v-list
       class="bg-grey-lighten-5"
-      v-if="comments"
-      height="200px"
+      max-height="200px"
       style="overflow-y: scroll"
+      v-if="isCommentsVisible && comments.length > 0"
     >
-      <v-list-item>Item1</v-list-item>
-      <v-list-item>Item2</v-list-item>
-      <v-list-item>Item3</v-list-item>
-      <v-list-item>Item4</v-list-item>
-      <v-list-item>Item5</v-list-item>
+      <v-list-item
+        v-for="comment in comments"
+        :key="comment.id"
+        class="d-flex align-center"
+      >
+        <div class="d-flex justify-center align-center ga-4 text-caption">
+          <v-avatar :image="comment.created_by.get_avatar ?? ''" size="40" class="mb-2" />
+          <p class="font-weight-bold">{{ comment.created_by.name }}</p>
+          <p>{{ comment.body }}</p>
+        </div>
+      </v-list-item>
     </v-list>
     <v-divider></v-divider>
-    <v-card-actions class="px-4" v-if="comments">
+    <v-card-actions class="px-4">
       <v-text-field
         color="grey-lighten-2"
         density="compact"
+        v-model="body"
         hide-details
         variant="outlined"
-        append-inner-icon="mdi-send"
+        append-icon="mdi-send"
+        @click:append="sendComment"
         outlined
       ></v-text-field>
     </v-card-actions>
@@ -86,35 +94,46 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import moment from 'moment'
 import { userUUID } from '@/utils/global'
 import type { Post } from '@/models/post'
-import type { Notification } from '@/models/global'
 import { usePostStore } from '@/stores/post'
+import type { Notification } from '@/models/global'
 
 const props = defineProps<{
   post: Post
 }>()
 
 const liked = ref(false)
-const comments = ref(false)
+const comments = ref([])
 const store = usePostStore()
-
+const body = ref('')
+const isCommentsVisible = ref(false)
 const emit = defineEmits<(event: 'show-snackbar', payload: Notification) => void>()
 
-const like = async () => {
-  await store.likePost(props.post.id as string).then(() => {
-    liked.value = true
-  })
-}
+onMounted(async () => {
+  const postDetails = await store.fetchPost(props.post.id)
+  comments.value = postDetails.comments
+})
 
+const like = async () => {
+  await store.likePost(props.post.id)
+  liked.value = !liked.value
+}
 const handleDeletePost = async () => {
-  await store.deletePost(props.post.id as string)
+  await store.deletePost(props.post.id)
 }
 const toggleComments = () => {
-  comments.value = !comments.value
-  store.fetchPost(props.post.id as string)
+  isCommentsVisible.value = !isCommentsVisible.value
+}
+const sendComment = async () => {
+  if (comments.value && body.value !== '') {
+    await store.createComment(props.post.id, body.value)
+    body.value = ''
+    const postDetails = await store.fetchPost(props.post.id)
+    comments.value = postDetails.comments
+  }
 }
 </script>
 
