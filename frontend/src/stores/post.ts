@@ -27,7 +27,7 @@ export const usePostStore = defineStore('post', () => {
       axios
         .get(`/api/posts/${postId}/`)
         .then(response => {
-          comments.value = response.data.post.comments
+          comments.value = response.data.post.comments || []
           resolve(response.data.post)
         })
         .catch(error => {

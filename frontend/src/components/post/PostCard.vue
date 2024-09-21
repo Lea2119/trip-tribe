@@ -63,7 +63,7 @@
       class="bg-grey-lighten-5"
       max-height="200px"
       style="overflow-y: scroll"
-      v-if="isCommentsVisible && comments.length > 0"
+      v-if="isCommentsVisible && post.comments && post.comments.length > 0"
     >
       <v-list-item
         v-for="comment in comments"
@@ -97,7 +97,7 @@
 import { ref, onMounted } from 'vue'
 import moment from 'moment'
 import { userUUID } from '@/utils/global'
-import type { Post } from '@/models/post'
+import type { Post, Comment } from '@/models/post'
 import { usePostStore } from '@/stores/post'
 import type { Notification } from '@/models/global'
 
@@ -106,7 +106,7 @@ const props = defineProps<{
 }>()
 
 const liked = ref(false)
-const comments = ref([])
+const comments = ref<Comment[]>([])
 const store = usePostStore()
 const body = ref('')
 const isCommentsVisible = ref(false)
@@ -114,7 +114,7 @@ const emit = defineEmits<(event: 'show-snackbar', payload: Notification) => void
 
 onMounted(async () => {
   const postDetails = await store.fetchPost(props.post.id)
-  comments.value = postDetails.comments
+  comments.value = postDetails.comments || []
 })
 
 const like = async () => {
@@ -132,7 +132,7 @@ const sendComment = async () => {
     await store.createComment(props.post.id, body.value)
     body.value = ''
     const postDetails = await store.fetchPost(props.post.id)
-    comments.value = postDetails.comments
+    comments.value = postDetails.comments || []
   }
 }
 </script>

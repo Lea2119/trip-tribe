@@ -6,6 +6,7 @@ export interface Post {
   created_at_formatted: string
   likes_count: number
   comments_count: number
+  comments?: Comment[]
 }
 
 export interface PostCreator {
@@ -14,6 +15,16 @@ export interface PostCreator {
   email: string
   friends_count: number
   get_avatar: string
+  friends: any[]
+  bio: string
+  posts_count: number
+}
+
+export interface Comment {
+  id: string
+  body: string
+  created_by: PostCreator
+  created_at_formatted: string
 }
 
 export interface Trend {
